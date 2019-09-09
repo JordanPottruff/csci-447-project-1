@@ -34,8 +34,6 @@ def open_glass_data():
 # Returns the 2D list of house votes data. Missing values replaced based on frequency, no categorizing necessary.
 def open_house_votes_data():
     data = get_original_data(HOUSE_VOTES_DATA_FILE_NAME)
-    data = replace_missing_rows(data, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])
-
     return data
 
 
@@ -44,10 +42,13 @@ def open_iris_data():
     data = get_original_data(IRIS_DATA_FILE_NAME)
     data = remove_missing_rows(data)
 
-    bins = ['LOW', 'MED', 'HIGH']
+    min_val = 0
+    max_val = 10
 
-    for col in [0, 1, 2, 3]:
-        data = discretize(data, col, bins)
+    data = discretize_equal_width(data, 0, min_val, max_val, 15)
+    data = discretize_equal_width(data, 1, min_val, max_val, 10)
+    data = discretize_equal_width(data, 2, min_val, max_val, 4)
+    data = discretize_equal_width(data, 3, min_val, max_val, 12)
 
     return data
 
@@ -92,22 +93,23 @@ def remove_missing_rows(data):
 
 
 # Returns a new 2D list with missing values for each column replaced based on the frequency of values in that column.
-def replace_missing_rows(data, cols):
+def replace_missing_rows(data, cols, class_col):
     new_data = []
     for i in range(len(data)):
         new_data.append(data[i].copy())
         for col in cols:
             if data[i][col] == '?':
-                new_data[i][col] = get_replacement(data, col)
+                class_name = data[i][class_col]
+                new_data[i][col] = get_replacement(data, col, class_col, class_name)
 
     return new_data
 
 
 # Randomly selects a non-missing value from the column.
-def get_replacement(data, col):
+def get_replacement(data, col, class_col, class_name):
     non_missing = []
     for line in data:
-        if line[col] != '?':
+        if line[col] != '?' and line[class_col] == class_name:
             non_missing.append(line[col])
 
     return random.choice(non_missing)
@@ -155,3 +157,25 @@ def discretize(data, col, bins):
     # again, we didn't modify the original data -- only this new_data variable.
     return new_data
 
+
+def discretize_equal_width(data, col, start, end, count):
+    bin_cutoffs = []
+    width = (end-start) / count
+    for i in range(count):
+        bin_cutoffs.append(start + (i+1) * width)
+
+    bin_cutoffs[-1] = float('inf')
+
+    new_data = []
+
+    for line in data:
+        new_line = line.copy()
+        for i in range(len(bin_cutoffs)):
+            cutoff = bin_cutoffs[i]
+
+            if float(line[col]) <= cutoff:
+                new_line[col] = i
+                break
+
+        new_data.append(new_line)
+    return new_data
