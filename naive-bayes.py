@@ -90,8 +90,8 @@ def test_iris_data():
 
     random.shuffle(data)
 
-    training = data[:120]
-    test = data[120:]
+    training = data[:130]
+    test = data[130:]
 
     attribute_cols = [0, 1, 2, 3]
     class_col = 4

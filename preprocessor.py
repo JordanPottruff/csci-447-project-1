@@ -42,10 +42,13 @@ def open_iris_data():
     data = get_original_data(IRIS_DATA_FILE_NAME)
     data = remove_missing_rows(data)
 
-    bins = ['LOW', 'MED', 'HIGH']
+    min_val = 0
+    max_val = 10
 
-    for col in [0, 1, 2, 3]:
-        data = discretize(data, col, bins)
+    data = discretize_equal_width(data, 0, min_val, max_val, 15)
+    data = discretize_equal_width(data, 1, min_val, max_val, 10)
+    data = discretize_equal_width(data, 2, min_val, max_val, 4)
+    data = discretize_equal_width(data, 3, min_val, max_val, 12)
 
     return data
 
@@ -152,4 +155,27 @@ def discretize(data, col, bins):
                 break
 
     # again, we didn't modify the original data -- only this new_data variable.
+    return new_data
+
+
+def discretize_equal_width(data, col, start, end, count):
+    bin_cutoffs = []
+    width = (end-start) / count
+    for i in range(count):
+        bin_cutoffs.append(start + (i+1) * width)
+
+    bin_cutoffs[-1] = float('inf')
+
+    new_data = []
+
+    for line in data:
+        new_line = line.copy()
+        for i in range(len(bin_cutoffs)):
+            cutoff = bin_cutoffs[i]
+
+            if float(line[col]) <= cutoff:
+                new_line[col] = i
+                break
+
+        new_data.append(new_line)
     return new_data
