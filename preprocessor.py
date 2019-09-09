@@ -34,7 +34,7 @@ def open_glass_data():
 # Returns the 2D list of house votes data. Missing values replaced based on frequency, no categorizing necessary.
 def open_house_votes_data():
     data = get_original_data(HOUSE_VOTES_DATA_FILE_NAME)
-    data = replace_missing_rows(data, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])
+    data = replace_missing_rows(data, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], 0)
 
     return data
 
@@ -92,22 +92,23 @@ def remove_missing_rows(data):
 
 
 # Returns a new 2D list with missing values for each column replaced based on the frequency of values in that column.
-def replace_missing_rows(data, cols):
+def replace_missing_rows(data, cols, class_col):
     new_data = []
     for i in range(len(data)):
         new_data.append(data[i].copy())
         for col in cols:
             if data[i][col] == '?':
-                new_data[i][col] = get_replacement(data, col)
+                class_name = data[i][class_col]
+                new_data[i][col] = get_replacement(data, col, class_col, class_name)
 
     return new_data
 
 
 # Randomly selects a non-missing value from the column.
-def get_replacement(data, col):
+def get_replacement(data, col, class_col, class_name):
     non_missing = []
     for line in data:
-        if line[col] != '?':
+        if line[col] != '?' and line[class_col] == class_name:
             non_missing.append(line[col])
 
     return random.choice(non_missing)
@@ -155,3 +156,4 @@ def discretize(data, col, bins):
     # again, we didn't modify the original data -- only this new_data variable.
     return new_data
 
+print_data(open_house_votes_data())
