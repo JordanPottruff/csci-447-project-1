@@ -33,11 +33,11 @@ def calc_attribute_count(data, attribute_col, attribute_value, class_col, class_
 
 
 # Calculates F(Aj = ak, C = ci).
-def calc_F(data, attribute_col, attribute_value, class_col, class_name, attributes):
+def calc_F(data, attribute_col, attribute_value, class_col, class_name, num_attributes):
     attr_count = calc_attribute_count(data, attribute_col, attribute_value, class_col, class_name)
     class_n = calc_class_count(data, class_col, class_name)
 
-    return (attr_count + 1) / (class_n + attributes)
+    return (attr_count + 1) / (class_n + num_attributes)
 
 
 # Calculates the probability that the specified observation belongs to the specified class based on the 'data', i.e. the
