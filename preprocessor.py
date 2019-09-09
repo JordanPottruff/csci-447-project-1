@@ -155,5 +155,3 @@ def discretize(data, col, bins):
 
     # again, we didn't modify the original data -- only this new_data variable.
     return new_data
-
-print_data(open_house_votes_data())
