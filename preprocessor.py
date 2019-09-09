@@ -34,8 +34,6 @@ def open_glass_data():
 # Returns the 2D list of house votes data. Missing values replaced based on frequency, no categorizing necessary.
 def open_house_votes_data():
     data = get_original_data(HOUSE_VOTES_DATA_FILE_NAME)
-    data = replace_missing_rows(data, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], 0)
-
     return data
 
 

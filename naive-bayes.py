@@ -68,7 +68,7 @@ def test_house_data():
         rep = calc_C(training, line, attribute_cols, class_col, 'republican')
         dem = calc_C(training, line, attribute_cols, class_col, 'democrat')
 
-        if(rep > dem):
+        if rep > dem:
             if line[0] == 'republican':
                 correct += 1
             else:
