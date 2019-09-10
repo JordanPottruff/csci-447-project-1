@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-=======
+
 import preprocessor as pr
 import random
 
@@ -130,4 +129,3 @@ def test_iris_data():
 
 test_house_data()
 test_iris_data()
->>>>>>> 4e164422d5a1105cc98ae84b718055abd039720c
