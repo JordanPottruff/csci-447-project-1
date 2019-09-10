@@ -35,7 +35,7 @@ def mean_square_error(example_data):
 
 
 
-    # predicted = (Actual class, {Key=Classname : Value=(Probability, Classname: Value)})
+
     num_of_elements = len(truth)  # Number of elements in our test set
     total_element_loss = 0
     for i in range(num_of_elements - 1):
@@ -45,10 +45,25 @@ def mean_square_error(example_data):
 
 def extractData(eachExample):
     """Extracts the truth value, the estimated probability value, the classname, and the number of classes"""
-    for truth, probabilities in eachExample:
-        current_highest_probability = 0
-        for individual_probability in probabilities:
-            # We are just going to ignore if they are the same probability
+    # eachExample = (Actual class, {Key=Classname : Value=(Probability, Classname: Value)}) <-- Format data is coming in
+    actual_class = eachExample[0]
+    dictionary = eachExample[1]
+    predicted_class = '';
 
-            if individual_probability > current_highest_probability:
-                current_highest_probaility = individual_probability
+
+    error_check = 0
+    for key in dictionary:
+        # Get Predicted class
+        predicted_class = key;
+
+        # Get number of classes and probability that the predicted_class was the actual_class
+        value = dictionary[key]
+        for i in range(len(value-1)):
+            value[] #TODO Jacob -- Need to remember data structure of each example
+        error_check += 1
+
+    if error_check > 1:
+        print("Error, we have more then 1 key per example in the LossFunctions input")
+
+
+
