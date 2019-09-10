@@ -31,11 +31,6 @@ def mean_square_error(example_data):
     for eachExample in example_data:
         extractData(eachExample);
 
-
-
-
-
-
     num_of_elements = len(truth)  # Number of elements in our test set
     total_element_loss = 0
     for i in range(num_of_elements - 1):
@@ -45,21 +40,26 @@ def mean_square_error(example_data):
 
 def extractData(eachExample):
     """Extracts the truth value, the estimated probability value, the classname, and the number of classes"""
-    # eachExample = (Actual class, {Key=Classname : Value=(Probability, Classname: Value)}) <-- Format data is coming in
-    actual_class = eachExample[0]
+    # Format of data --> eachExample = (Actual class, {Key=Classname : Value=(Probability, Classname: Value)}) 
+    # Declare Variables
     dictionary = eachExample[1]
+    actual_class = eachExample[0]
     predicted_class = '';
-
-
+    probability = 0
+    total_classes = 0
+    
     error_check = 0
     for key in dictionary:
+        
         # Get Predicted class
         predicted_class = key;
-
+        
         # Get number of classes and probability that the predicted_class was the actual_class
         value = dictionary[key]
-        for i in range(len(value-1)):
-            value[] #TODO Jacob -- Need to remember data structure of each example
+        probability = value[0]
+        for i in range(len(value[1]-1)):
+             #TODO Jacob -- Need to remember data structure of each example
+            total_classes += 1
         error_check += 1
 
     if error_check > 1:
