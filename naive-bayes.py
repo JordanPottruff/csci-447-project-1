@@ -51,6 +51,17 @@ def calc_C(data, observation, attribute_cols, class_col, class_name):
     return calc_Q(data, class_col, class_name) * product
 
 
+def pick_highest(classes):
+    max_val = float("-inf")
+    max_class = ""
+    for c in classes:
+        if(c[1] > max_val):
+            max_val = c[1]
+            max_class = c[0]
+
+    return max_class
+
+
 # A test using the house data.
 def test_house_data():
     data = pr.open_house_votes_data()
@@ -65,20 +76,17 @@ def test_house_data():
     correct = 0
     incorrect = 0
     for line in test:
-        rep = calc_C(training, line, attribute_cols, class_col, 'republican')
-        dem = calc_C(training, line, attribute_cols, class_col, 'democrat')
+        rep = ('republican', calc_C(training, line, attribute_cols, class_col, 'republican'))
+        dem = ('democrat', calc_C(training, line, attribute_cols, class_col, 'democrat'))
 
-        if rep > dem:
-            if line[0] == 'republican':
-                correct += 1
-            else:
-                incorrect += 1
+        choice = pick_highest([rep, dem])
+
+        actual = line[class_col]
+
+        if choice != actual:
+            incorrect += 1
         else:
-            if line[0] == 'republican':
-                incorrect += 1
-
-            else:
-                correct += 1
+            correct += 1
 
     print("House data set: ")
     print("Accuracy: " + str(correct / (correct + incorrect)))
@@ -99,32 +107,54 @@ def test_iris_data():
     correct = 0
     incorrect = 0
     for line in test:
-        setosa = calc_C(training, line, attribute_cols, class_col, 'Iris-setosa')
-        veriscolor = calc_C(training, line, attribute_cols, class_col, 'Iris-versicolor')
-        virginica = calc_C(training, line, attribute_cols, class_col, 'Iris-virginica')
+        setosa = ("Iris-setosa", calc_C(training, line, attribute_cols, class_col, 'Iris-setosa'))
+        veriscolor = ("Iris-versicolor", calc_C(training, line, attribute_cols, class_col, 'Iris-versicolor'))
+        virginica = ("Iris-virginica", calc_C(training, line, attribute_cols, class_col, 'Iris-virginica'))
 
+        choice = pick_highest([setosa, veriscolor, virginica])
         actual = line[class_col]
 
-        if setosa > veriscolor and setosa > virginica:
-            if actual == 'Iris-setosa':
-                correct += 1
-            else:
-                incorrect += 1
-
-        if veriscolor > setosa and veriscolor > virginica:
-            if actual == 'Iris-veriscolor':
-                correct += 1
-            else:
-                incorrect += 1
-
-        if virginica > veriscolor and virginica > setosa:
-            if actual == 'Iris-virginica':
-                correct += 1
-            else:
-                incorrect += 1
+        if choice != actual:
+            incorrect += 1
+        else:
+            correct += 1
 
     print("Iris data set: ")
     print("Accuracy: " + str(correct / (correct + incorrect)))
 
+
+def test_soybean_data():
+    data = pr.open_soybean_small()
+
+    random.shuffle(data)
+
+    training = data[:40]
+    test = data[40:]
+
+    attribute_cols = list(range(35))
+    class_col = 35
+
+    correct = 0
+    incorrect = 0
+    for line in test:
+        d1 = ('D1', calc_C(training, line, attribute_cols, class_col, 'D1'))
+        d2 = ('D2', calc_C(training, line, attribute_cols, class_col, 'D2'))
+        d3 = ('D3', calc_C(training, line, attribute_cols, class_col, 'D3'))
+        d4 = ('D4', calc_C(training, line, attribute_cols, class_col, 'D4'))
+
+        choice = pick_highest([d1, d2, d3, d4])
+
+        actual = line[class_col]
+
+        if choice != actual:
+            incorrect += 1
+        else:
+            correct += 1
+
+    print("Soybean data set: ")
+    print("Accuracy: " + str(correct / (correct + incorrect)))
+
+
 test_house_data()
 test_iris_data()
+test_soybean_data()
