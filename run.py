@@ -44,6 +44,7 @@ def run_soybean_data():
     data = pr.open_soybean_small()
     training, test = shuffle_and_split(data)
     result = cl.classify_soybean_data(training, test)
+    # TODO: use loss function on results.
 
 
 # (1) shuffles the data, and (2) segments it into a training and test set.
