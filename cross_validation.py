@@ -25,7 +25,7 @@ def cross_validation(data, folds=10):
         print("Training set %d: %s" % (i, real_training_set))
 
 
-# Returns an array of a dictionary of keys: "testing" and "training".
+# Returns an array of a dictionary of keys: "testing" and "training" and values: arrays of data.
 # Each key is mapped to a value of a 2D array of the data respective to the key.
 # Input: Data (as a 2D list) and number of segments or folds to split the data
 def ten_fold_cross_validation(data, seg):
@@ -34,11 +34,11 @@ def ten_fold_cross_validation(data, seg):
     array_of_dictionary = []
     last = 0.0
 
-    # Populates array_of_ten_segments by splitting the data
+    # Populates array_of_segments by splitting the data to the number of segments
     while last < len(data):
         array_of_segments.append(data[int(last):int(last + avg)])
         last += avg
-    # Creates a dictionary that maps testing and training to its the respective data
+    # Creates a dictionary that maps testing and training to its respective data
     for i in range(len(array_of_segments)):
         validation = {}
         validation['testing'] = array_of_segments[i]
@@ -49,6 +49,8 @@ def ten_fold_cross_validation(data, seg):
             training_set = training_set + sets[:]
         validation['training'] = training_set
         array_of_dictionary.append(validation)
+
+    # Prints the data to verify
     counter = 1
     for d in array_of_dictionary:
         print("SET: " + str(counter))
