@@ -55,7 +55,7 @@ def calculate_cross_entropy_error(truth, predicted):
 
 def extract_data(each_example):
     """Extracts the truth value, the estimated probability value, the classname, and the number of classes"""
-    # Format of eachExample -> (Actual Class, {classname: probability, classname2: probability2}
+    # Format of eachExample -> (Actual Class, {classname: probability, classname2: probability2})
     # Declare Variables
     probability_dictionary = each_example[1]
     actual_class = each_example[0]
