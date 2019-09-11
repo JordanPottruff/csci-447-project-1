@@ -2,7 +2,7 @@ import math as m
 import numpy as np
 
 
-def loss_functions(training_set, loss_function_type):
+def loss_function(training_set, loss_function_type):
     """ Call the lossFunctions method when trying to find the loss of a model. The loss determines how well your model
         works.   """
     total_loss = 0
