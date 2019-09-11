@@ -8,9 +8,6 @@ HOUSE_VOTES_DATA_FILE_NAME = "data/house-votes-84.data"
 IRIS_DATA_FILE_NAME = "data/iris.data"
 SOYBEAN_SMALL_DATA_NAME = "data/soybean-small.data"
 
-##
-#  The functions below should be used to get the preprocessed data for each data set.
-##
 
 # Returns the 2D list of the breast cancer data. Missing values removed, no categorizing necessary.
 def open_breast_cancer_data():
@@ -23,7 +20,7 @@ def open_glass_data():
     data = get_original_data(GLASS_DATA_FILE_NAME)
     data = remove_missing_rows(data)
 
-    bins = ['LOW', 'MED', 'HIGH']
+    bins = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 
     for col in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
         data = discretize(data, col, bins)
@@ -58,9 +55,8 @@ def open_soybean_small():
     data = get_original_data(SOYBEAN_SMALL_DATA_NAME)
     return remove_missing_rows(data)
 
-##
+
 # Functions below are used for doing the actual preprocessing.
-##
 
 
 # Returns the data from the file as a 2D list (table).
@@ -89,19 +85,6 @@ def remove_missing_rows(data):
     for line in data:
         if '?' not in line:
             new_data.append(line)
-    return new_data
-
-
-# Returns a new 2D list with missing values for each column replaced based on the frequency of values in that column.
-def replace_missing_rows(data, cols, class_col):
-    new_data = []
-    for i in range(len(data)):
-        new_data.append(data[i].copy())
-        for col in cols:
-            if data[i][col] == '?':
-                class_name = data[i][class_col]
-                new_data[i][col] = get_replacement(data, col, class_col, class_name)
-
     return new_data
 
 
