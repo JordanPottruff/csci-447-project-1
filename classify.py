@@ -65,7 +65,7 @@ def classify(training, test, classes, attribute_cols, class_col):
         # ...and each possible class...
         for cls in classes:
             # ...calculate the probability that the observation belongs to the class.
-            probabilities[cls] = nb.calc_C(training, line, attribute_cols, class_col, cls)
+            probabilities[cls] = nb.calc_classification_probability(training, line, attribute_cols, class_col, cls)
 
         # Save as a tuple in the form (*Actual class*, *Map of class to probability*).
         results.append((line[class_col], probabilities))
