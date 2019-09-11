@@ -34,7 +34,7 @@ def ten_fold_cross_validation(data, seg):
     array_of_dictionary = []
     last = 0.0
 
-    # Populates array_of_ten_segments by splitting the data
+    # Populates array_of_segments by splitting the data to the number of segments
     while last < len(data):
         array_of_segments.append(data[int(last):int(last + avg)])
         last += avg
