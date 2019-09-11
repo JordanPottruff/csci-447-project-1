@@ -156,6 +156,6 @@ def test_soybean_data():
     print("Accuracy: " + str(correct / (correct + incorrect)))
 
 
-test_house_data()
-test_iris_data()
-test_soybean_data()
+# test_house_data()
+# test_iris_data()
+# test_soybean_data()
