@@ -8,58 +8,83 @@ import classify as cl
 TEST_SET_PROPORTION = 0.2
 
 
-def run_breast_cancer_data():
+def run_breast_cancer_data(n):
     data = pr.open_breast_cancer_data()
-    training, test = shuffle_and_split(data)
-    results = cl.classify_breast_cancer_data(training, test)
+    accuracy_sum = 0
+    for i in range(n):
+        training, test = shuffle_and_split(data)
+        results = cl.classify_breast_cancer_data(training, test)
+        accuracy_sum += calc_accuracy(results)
+
+    average_accuracy = accuracy_sum / n
 
     # TODO: use loss function on results. Right now we just print accuracy.
-    print("\nbreast-cancer-wisconsin.data:")
-    print("Accuracy: " + str(calc_accuracy(results)))
+    print("\nbreast-cancer-wisconsin.data @n=" + str(n))
+    print("Avg. Accuracy: " + str(average_accuracy))
 
 
 # Segments the glass data into test and training and attempts to classify the test set using the training set.
-def run_glass_data():
+def run_glass_data(n):
     data = pr.open_glass_data()
-    training, test = shuffle_and_split(data)
-    results = cl.classify_glass_data(training, test)
+    accuracy_sum = 0
+    for i in range(n):
+        training, test = shuffle_and_split(data)
+        results = cl.classify_glass_data(training, test)
+        accuracy_sum += calc_accuracy(results)
+
+    average_accuracy = accuracy_sum / n
 
     # TODO: use loss function on results. Right now we just print accuracy.
-    print("\nglass.data:")
-    print("Accuracy: " + str(calc_accuracy(results)))
+    print("\nglass.data @n=" + str(n))
+    print("Avg. Accuracy: " + str(average_accuracy))
 
 
 # Segments the house data into test and training and attempts to classify the test set using the training set.
-def run_house_data():
+def run_house_data(n):
     data = pr.open_house_votes_data()
-    training, test = shuffle_and_split(data)
-    results = cl.classify_house_data(training, test)
+    accuracy_sum = 0
+    for i in range(n):
+        training, test = shuffle_and_split(data)
+        results = cl.classify_house_data(training, test)
+        accuracy_sum += calc_accuracy(results)
+
+    average_accuracy = accuracy_sum / n
 
     # TODO: use loss function on results. Right now we just print accuracy.
-    print("\nhouse-votes-84.data:")
-    print("Accuracy: " + str(calc_accuracy(results)))
+    print("\nhouse-votes-84.data @n=" + str(n))
+    print("Avg. Accuracy: " + str(average_accuracy))
 
 
 # Segments the iris data into test and training and attempts to classify the test set using the training set.
-def run_iris_data():
+def run_iris_data(n):
     data = pr.open_iris_data()
-    training, test = shuffle_and_split(data)
-    results = cl.classify_iris_data(training, test)
+    accuracy_sum = 0
+    for i in range(n):
+        training, test = shuffle_and_split(data)
+        results = cl.classify_iris_data(training, test)
+        accuracy_sum += calc_accuracy(results)
+
+    average_accuracy = accuracy_sum / n
 
     # TODO: use loss function on results. Right now we just print accuracy.
-    print("\niris.data:")
-    print("Accuracy: " + str(calc_accuracy(results)))
+    print("\niris.data @n=" + str(n))
+    print("Avg. Accuracy: " + str(average_accuracy))
 
 
 # Segments the soybean data into test and training and attempts to classify the test set using the training set.
-def run_soybean_data():
+def run_soybean_data(n):
     data = pr.open_soybean_small()
-    training, test = shuffle_and_split(data)
-    results = cl.classify_soybean_data(training, test)
+    accuracy_sum = 0
+    for i in range(n):
+        training, test = shuffle_and_split(data)
+        results = cl.classify_soybean_data(training, test)
+        accuracy_sum += calc_accuracy(results)
+
+    average_accuracy = accuracy_sum / n
 
     # TODO: use loss function on results. Right now we just print accuracy.
-    print("\nsoybean-small.data:")
-    print("Accuracy: " + str(calc_accuracy(results)))
+    print("\nsoybean-small.data @n=" + str(n))
+    print("Avg. Accuracy: " + str(average_accuracy))
 
 
 # (1) shuffles the data, and (2) segments it into a training and test set.
@@ -108,8 +133,8 @@ def pick_highest(probability_map):
     return max_class
 
 
-run_breast_cancer_data()
-run_glass_data()
-run_house_data()
-run_iris_data()
-run_soybean_data()
+run_breast_cancer_data(50)
+run_glass_data(50)
+run_house_data(50)
+run_iris_data(50)
+run_soybean_data(50)
