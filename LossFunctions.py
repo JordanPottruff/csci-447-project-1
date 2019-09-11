@@ -2,68 +2,76 @@ import math as m
 import numpy as np
 
 
-def cross_entropy_loss(element):  # Taking in arrays of probabilities for each element
-    """Loss Function algorithm that determines our algorithms performs on the data-set provided."""
+def loss_function(training_set, loss_function_type):
+    """ Call the lossFunctions method when trying to find the loss of a model. The loss determines how well your model
+        works.   """
+    total_loss = 0
+    # Loop through each example in our test set
+    for eachExample in training_set:
+        # ... get needed variables from the data for our loss function ...
+        actual_class, classes, probabilities, num_of_classes = extract_data(eachExample)
 
-    # We are taking in the truth and predicted values for each element in our test set and going to calculate our loss.
+        # ... keep track of total loss for each example ...
+        example_loss = 0
+        # ... Loop through classes
+        for i in range(num_of_classes - 1):
+            # ... get targets of what the probabilities should of been ...
+            truth = 0
+            if actual_class != classes[i]:
+                truth = 0
+            else:
+                truth = 1
 
-    def calculate_loss(truth, predicted):
-        return (-1) * (truth * m.log(predicted))
+            if loss_function_type == 'MSE':
+                example_loss += calculate_mean_square_error(truth, probabilities[i])
+            elif loss_function_type == 'Cross_Entropy':
+                example_loss += calculate_cross_entropy_error(truth, probabilities[i])
+            else:
+                print("Error: There was no loss_function created for the requested type.")
 
+        total_loss += example_loss
+    loss_average_of_testset = total_loss / len(training_set)
+    print("Our averaged loss value on this training set using cross entropy is [0]", format(loss_average_of_testset))
+
+
+def calculate_mean_square_error(truth, predicted):
+    """ Method to calculate the mean_square_error of a model.    """
+    # Mean Square Error (MSE) loss function
+    # https://jamesmccaffrey.wordpress.com/2013/11/05/why-you-should-use-cross-entropy-error-instead-of-classification-error-or-mean-squared-error-for-neural-network-classifier-training/
+    # Mean square error function
+    return (predicted - truth)**2
+
+
+def calculate_cross_entropy_error(truth, predicted):
+    """ Loss Function algorithm that determines our algorithms performs on the data-set provided.   """
+    # Cross Entropy loss function
     # https://ml-cheatsheet.readthedocs.io/en/latest/loss_functions.html#cross-entropy
     # calculate a separate loss for each class label per observation and sum the result
     # H(p, q) =−∑∀x p(x)log(q(x))
-    # p_o_c predicted probability observation o is of class c
-    # y_o_c binary indicator if class label c is the correct classification for observation o
-    # Sum over binary cross-entropies for individual points in a dataset
-    num_of_elements = len(truth)  # Number of elements in our test set
-    total_element_loss = 0
-    for i in range(num_of_elements - 1):
-        total_element_loss += calculate_loss(truth[i], predicted[i])
-
-    return performance
+    if predicted == 0:
+        print("Error: To accurate? Find me in loss functions as we cannot have a natural log of 0")
+    return (-1) * (truth * m.log(predicted))
 
 
-def mean_square_error(example_data):
-    # Num of classes is the number of keys -- Jordan will pass predicted value in as a map
-    # Mean Square Error (MSE) loss function that will 
-
-    for eachExample in example_data:
-        extractData(eachExample);
-
-    num_of_elements = len(truth)  # Number of elements in our test set
-    total_element_loss = 0
-    for i in range(num_of_elements - 1):
-        total_element_loss += (predicted - true) ** 2  # Calculate the squared error for all the instances
-    mean_element_loss = total_element_loss / num_of_elements  # Get average loss for each instance
-    return mean_element_loss
-
-def extractData(eachExample):
+def extract_data(each_example):
     """Extracts the truth value, the estimated probability value, the classname, and the number of classes"""
-    # Format of data --> eachExample = (Actual class, {Key=Classname : Value=(Probability, Classname: Value)}) 
+    # Format of eachExample -> (Actual Class, {classname: probability, classname2: probability2})
     # Declare Variables
-    dictionary = eachExample[1]
-    actual_class = eachExample[0]
-    predicted_class = '';
-    probability = 0
-    total_classes = 0
-    
-    error_check = 0
-    for key in dictionary:
-        
-        # Get Predicted class
-        predicted_class = key;
-        
-        # Get number of classes and probability that the predicted_class was the actual_class
-        value = dictionary[key]
-        probability = value[0]
-        for i in range(len(value[1]-1)):
-             #TODO Jacob -- Need to remember data structure of each example
-            total_classes += 1
-        error_check += 1
+    probability_dictionary = each_example[1]
+    actual_class = each_example[0]
+    classes = []
+    probabilities = []
 
-    if error_check > 1:
-        print("Error, we have more then 1 key per example in the LossFunctions input")
+    for cls in probability_dictionary:
+        # Get classes
+        classes.append(cls)
+        # Get probabilities associated with each class
+        probabilities.append(probability_dictionary[cls])
 
+    # Error checking
+    if len(probailities) != len(classes):
+        print("Error, we should have equal number of probabilities and classes")
 
+    num_of_classes = len(classes)
+    return actual_class, classes, probabilities, num_of_classes
 
