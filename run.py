@@ -3,9 +3,105 @@ import math
 
 import preprocessor as pr
 import classify as cl
+import cross_validation as cv
 
 # Proportion of data that belongs to test set when running algorithm without x-validation.
 TEST_SET_PROPORTION = 0.2
+
+
+def run_breast_cancer_data_cross_fold():
+    data = pr.open_breast_cancer_data()
+    trials = cv.ten_fold_cross_validation(data)
+
+    accuracy_sum = 0
+    for trial in trials:
+        training = trial["training"]
+        testing = trial["testing"]
+
+        results = cl.classify_breast_cancer_data(training, testing)
+        accuracy_sum += calc_accuracy(results)
+
+    average_accuracy = accuracy_sum / 10
+
+    # TODO: use loss function on results. Right now we just print accuracy.
+    print("\nbreast-cancer-wisconsin.data @cross-fold=10")
+    print("Avg. Accuracy: " + str(average_accuracy))
+
+
+def run_glass_data_cross_fold():
+    data = pr.open_glass_data()
+    trials = cv.ten_fold_cross_validation(data)
+
+    accuracy_sum = 0
+    for trial in trials:
+        training = trial["training"]
+        testing = trial["testing"]
+
+        results = cl.classify_glass_data(training, testing)
+        accuracy_sum += calc_accuracy(results)
+
+    average_accuracy = accuracy_sum / 10
+
+    # TODO: use loss function on results. Right now we just print accuracy.
+    print("\nglass.data @cross-fold=10")
+    print("Avg. Accuracy: " + str(average_accuracy))
+
+
+def run_house_data_cross_fold():
+    data = pr.open_house_votes_data()
+    trials = cv.ten_fold_cross_validation(data)
+
+    accuracy_sum = 0
+    for trial in trials:
+        training = trial["training"]
+        testing = trial["testing"]
+
+        results = cl.classify_house_data(training, testing)
+        accuracy_sum += calc_accuracy(results)
+
+    average_accuracy = accuracy_sum / 10
+
+    # TODO: use loss function on results. Right now we just print accuracy.
+    print("\nhouse-votes-84.data @cross-fold=10")
+    print("Avg. Accuracy: " + str(average_accuracy))
+
+
+def run_iris_data_cross_fold():
+    data = pr.open_iris_data()
+    trials = cv.ten_fold_cross_validation(data)
+
+    accuracy_sum = 0
+    for trial in trials:
+        training = trial["training"]
+        testing = trial["testing"]
+
+        results = cl.classify_iris_data(training, testing)
+        accuracy_sum += calc_accuracy(results)
+
+    average_accuracy = accuracy_sum / 10
+
+    # TODO: use loss function on results. Right now we just print accuracy.
+    print("\niris.data @cross-fold=10")
+    print("Avg. Accuracy: " + str(average_accuracy))
+
+
+def run_soybean_data_cross_fold():
+    data = pr.open_soybean_small()
+    trials = cv.ten_fold_cross_validation(data)
+
+    accuracy_sum = 0
+    for trial in trials:
+        training = trial["training"]
+        testing = trial["testing"]
+
+        results = cl.classify_soybean_data(training, testing)
+        accuracy_sum += calc_accuracy(results)
+
+    average_accuracy = accuracy_sum / 10
+
+    # TODO: use loss function on results. Right now we just print accuracy.
+    print("\nsoybean-small.data @cross-fold=10")
+    print("Avg. Accuracy: " + str(average_accuracy))
 
 
 def run_breast_cancer_data(n):
@@ -138,3 +234,8 @@ run_glass_data(50)
 run_house_data(50)
 run_iris_data(50)
 run_soybean_data(50)
+run_breast_cancer_data_cross_fold()
+run_glass_data_cross_fold()
+run_house_data_cross_fold()
+run_iris_data_cross_fold()
+run_soybean_data_cross_fold()
