@@ -39,7 +39,7 @@ def calculate_mean_square_error(truth, predicted, num_of_classes):
     # Mean Square Error (MSE) loss function
     # https://jamesmccaffrey.wordpress.com/2013/11/05/why-you-should-use-cross-entropy-error-instead-of-classification-error-or-mean-squared-error-for-neural-network-classifier-training/
     # Mean square error function
-    return ((predicted - truth)**2/num_of_classes)
+    return ((predicted - truth)**2/num_of_classes)  # Return average loss for example
 
 
 def calculate_cross_entropy_error(truth, predicted, num_of_classes):
