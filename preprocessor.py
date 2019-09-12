@@ -20,15 +20,17 @@ def open_glass_data():
     data = get_original_data(GLASS_DATA_FILE_NAME)
     data = remove_missing_rows(data)
 
-    bins = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-
+    # Equal-frequency discretization of refractive index attribute.
+    data = discretize_equal_freq(data, 1, 10)
+    # Equal-width discretization of remaining weight percentage attributes.
+    bin_start = 0       # Bin 0 will begin at 0.
+    bin_width = 1       # Each bin will capture a range of length 1.
     for col in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
-        data = discretize(data, col, bins)
-
+        data = discretize_equal_width(data, col, bin_start, bin_width)
     return data
 
 
-# Returns the 2D list of house votes data. Missing values replaced based on frequency, no categorizing necessary.
+# Returns the 2D list of house votes data. No missing values, no categorizing necessary.
 def open_house_votes_data():
     data = get_original_data(HOUSE_VOTES_DATA_FILE_NAME)
     return data
@@ -39,13 +41,12 @@ def open_iris_data():
     data = get_original_data(IRIS_DATA_FILE_NAME)
     data = remove_missing_rows(data)
 
-    min_val = 0
-    max_val = 10
-
-    data = discretize_equal_width(data, 0, min_val, max_val, 15)
-    data = discretize_equal_width(data, 1, min_val, max_val, 10)
-    data = discretize_equal_width(data, 2, min_val, max_val, 4)
-    data = discretize_equal_width(data, 3, min_val, max_val, 12)
+    # Discretize all four attribute columns using equal-width discretization.
+    bin_start = 0
+    data = discretize_equal_width(data, 0, bin_start, 1)
+    data = discretize_equal_width(data, 1, bin_start, 1)
+    data = discretize_equal_width(data, 2, bin_start, 1)
+    data = discretize_equal_width(data, 3, bin_start, 1)
 
     return data
 
@@ -104,10 +105,10 @@ def print_data(data):
         print(line)
 
 
-# Transforms continuous (real) values in the specified column to be 'discrete' by categorizing them with the given bin
-# names. For example, if bins=["Low", "Medium", "High"], the bottom 33% of values in the specified column will become
-# "Low", the next 33% will become "Medium", and the last 33% will become "High". This works for any number of bins.
-def discretize(data, col, bins):
+# Discretization using bins of equal-frequency that store increasingly higher values. This means that roughly the same
+# proportion of the rows will be discretized to each bin for the given column. For example, 3 bins would lead to bin 0
+# to represent the lowest third of values, bin 1 the next third, and bin 2 the top third.
+def discretize_equal_freq(data, col, num_bins):
     # new_data will be the final version of our data that is returned.
     new_data = []
     # column will be a list of the values for the column being discretized.
@@ -121,9 +122,9 @@ def discretize(data, col, bins):
     sorted_column.sort()
 
     # find the maximum value (cutoff) that can belong to each bin.
-    bin_width = len(column)/len(bins)
+    bin_width = len(column)/num_bins
     bin_cutoffs = []
-    for i in range(len(bins)-1):
+    for i in range(num_bins-1):
         val = sorted_column[math.ceil((i + 1) * bin_width)]
         bin_cutoffs.append(val)
 
@@ -132,33 +133,34 @@ def discretize(data, col, bins):
 
     # replace the continuous values with their corresponding bin names based on our cutoffs.
     for i in range(len(data)):
-        for b in range(len(bins)):
-            if float(new_data[i][col]) <= bin_cutoffs[b]:
-                new_data[i][col] = bins[b]
+        for bin in range(num_bins):
+            if float(new_data[i][col]) <= bin_cutoffs[bin]:
+                new_data[i][col] = bin
                 break
 
     # again, we didn't modify the original data -- only this new_data variable.
     return new_data
 
 
-def discretize_equal_width(data, col, start, end, count):
-    bin_cutoffs = []
-    width = (end-start) / count
-    for i in range(count):
-        bin_cutoffs.append(start + (i+1) * width)
-
-    bin_cutoffs[-1] = float('inf')
-
-    new_data = []
+# Discretization using bins that represent ranges of values that are of equal width. The continuous will be replaced
+# with an integer representing the bin number. The origin specifies the value that should be the lowest possible value
+# for bin 0. If any values are below the origin, they will take on a negative bin number. The width determines how large
+# each bin's range is. For example, bin 0 is (origin, origin + width),  is (origin, origin + 2*width), etc.
+def discretize_equal_width(data, col, origin, width):
+    # Don't discretize in place; return a new data set with discretization.
+    discretized_data = []
 
     for line in data:
-        new_line = line.copy()
-        for i in range(len(bin_cutoffs)):
-            cutoff = bin_cutoffs[i]
+        # Create copy of line to ensure we don't manipulate original data.
+        line_cpy = line.copy()
 
-            if float(line[col]) <= cutoff:
-                new_line[col] = i
-                break
+        # Determine the "bin", represented by a number. The range (origin, origin + width) is 0, then (origin, origin +
+        # 2 * width) is 1, etc (with negatives for below the origin).
+        continuous_value = float(line_cpy[col])
+        bin = math.floor((continuous_value - origin) / width)
+        line_cpy[col] = bin
 
-        new_data.append(new_line)
-    return new_data
+        # Add discretized line to the data set copy we are building.
+        discretized_data.append(line_cpy)
+
+    return discretized_data
