@@ -9,6 +9,8 @@ import LossFunctions as lf
 TEST_SET_PROPORTION = 0.2
 
 
+# FUNCTIONS FOR RUNNING CROSS FOLDS ON THE DATA
+
 def run_breast_cancer_data_cross_fold():
     run_cross_fold(pr.open_breast_cancer_data(), cl.classify_breast_cancer_data, "breast-cancer-wisconsin.data")
 
@@ -29,83 +31,30 @@ def run_soybean_data_cross_fold():
     run_cross_fold(pr.open_soybean_small(), cl.classify_soybean_data, "soybean-small.data")
 
 
+# FUNCTIONS FOR RUNNING WITH 20-80 TEST/TRAINING SPLIT
+
+
 def run_breast_cancer_data(n):
-    data = pr.open_breast_cancer_data()
-    accuracy_sum = 0
-    for i in range(n):
-        training, test = shuffle_and_split(data)
-        results = cl.classify_breast_cancer_data(training, test)
-        accuracy_sum += calc_accuracy(results)
-
-    average_accuracy = accuracy_sum / n
-
-    # TODO: use loss function on results. Right now we just print accuracy.
-    print("\nbreast-cancer-wisconsin.data @n=" + str(n))
-    print("Avg. Accuracy: " + str(average_accuracy))
+    run(n, pr.open_breast_cancer_data(), cl.classify_breast_cancer_data, "breast-cancer-wisconsin.data")
 
 
-# Segments the glass data into test and training and attempts to classify the test set using the training set.
 def run_glass_data(n):
-    data = pr.open_glass_data()
-    accuracy_sum = 0
-    for i in range(n):
-        training, test = shuffle_and_split(data)
-        results = cl.classify_glass_data(training, test)
-        accuracy_sum += calc_accuracy(results)
-
-    average_accuracy = accuracy_sum / n
-
-    # TODO: use loss function on results. Right now we just print accuracy.
-    print("\nglass.data @n=" + str(n))
-    print("Avg. Accuracy: " + str(average_accuracy))
+    run(n, pr.open_glass_data(), cl.classify_glass_data, "glass.data")
 
 
-# Segments the house data into test and training and attempts to classify the test set using the training set.
 def run_house_data(n):
-    data = pr.open_house_votes_data()
-    accuracy_sum = 0
-    for i in range(n):
-        training, test = shuffle_and_split(data)
-        results = cl.classify_house_data(training, test)
-        accuracy_sum += calc_accuracy(results)
-
-    average_accuracy = accuracy_sum / n
-
-    # TODO: use loss function on results. Right now we just print accuracy.
-    print("\nhouse-votes-84.data @n=" + str(n))
-    print("Avg. Accuracy: " + str(average_accuracy))
+    run(n, pr.open_house_votes_data(), cl.classify_house_data, "house-votes-84.data")
 
 
-# Segments the iris data into test and training and attempts to classify the test set using the training set.
 def run_iris_data(n):
-    data = pr.open_iris_data()
-    accuracy_sum = 0
-    for i in range(n):
-        training, test = shuffle_and_split(data)
-        results = cl.classify_iris_data(training, test)
-        accuracy_sum += calc_accuracy(results)
-
-    average_accuracy = accuracy_sum / n
-
-    # TODO: use loss function on results. Right now we just print accuracy.
-    print("\niris.data @n=" + str(n))
-    print("Avg. Accuracy: " + str(average_accuracy))
+    run(n, pr.open_iris_data(), cl.classify_iris_data, "iris.data")
 
 
-# Segments the soybean data into test and training and attempts to classify the test set using the training set.
 def run_soybean_data(n):
-    data = pr.open_soybean_small()
-    accuracy_sum = 0
-    for i in range(n):
-        training, test = shuffle_and_split(data)
-        results = cl.classify_soybean_data(training, test)
-        accuracy_sum += calc_accuracy(results)
+    run(n, pr.open_soybean_small(), cl.classify_soybean_data, "soybean-small.data")
 
-    average_accuracy = accuracy_sum / n
 
-    # TODO: use loss function on results. Right now we just print accuracy.
-    print("\nsoybean-small.data @n=" + str(n))
-    print("Avg. Accuracy: " + str(average_accuracy))
+# MISC. HELPER FUNCTIONS
 
 
 def run_cross_fold(data, classification_function, filename):
@@ -130,6 +79,29 @@ def run_cross_fold(data, classification_function, filename):
     average_cross_entropy_loss = cross_entropy_loss / 10
 
     print("\n" + str(filename) + " @cross-fold=10")
+    print("Avg. Accuracy: " + str(average_accuracy))
+    print("Avg. Mean Square Error Loss: " + str(average_mse_loss))
+    print("Avg. Cross Entropy Error Loss: " + str(average_cross_entropy_loss))
+
+
+def run(n, data, classification_function, filename):
+    accuracy_sum = 0
+    mean_square_error_loss = 0
+    cross_entropy_loss = 0
+
+    for i in range(n):
+        training, test = shuffle_and_split(data)
+        results = classification_function(training, test)
+
+        accuracy_sum += calc_accuracy(results)
+        mean_square_error_loss += lf.loss_function(results, "MSE")
+        cross_entropy_loss += lf.loss_function(results, "Cross_Entropy")
+
+    average_accuracy = accuracy_sum / n
+    average_mse_loss = mean_square_error_loss / n
+    average_cross_entropy_loss = cross_entropy_loss / n
+
+    print("\n" + filename + " @n=" + str(n))
     print("Avg. Accuracy: " + str(average_accuracy))
     print("Avg. Mean Square Error Loss: " + str(average_mse_loss))
     print("Avg. Cross Entropy Error Loss: " + str(average_cross_entropy_loss))
@@ -181,13 +153,13 @@ def pick_highest(probability_map):
     return max_class
 
 
-# run_breast_cancer_data(50)
-# run_glass_data(50)
-# run_house_data(50)
-# run_iris_data(50)
-# run_soybean_data(50)
+run_breast_cancer_data(50)
+run_glass_data(50)
+run_house_data(50)
+run_iris_data(50)
+run_soybean_data(50)
 run_breast_cancer_data_cross_fold()
-# run_glass_data_cross_fold()
-# run_house_data_cross_fold()
-# run_iris_data_cross_fold()
-# run_soybean_data_cross_fold()
+run_glass_data_cross_fold()
+run_house_data_cross_fold()
+run_iris_data_cross_fold()
+run_soybean_data_cross_fold()
