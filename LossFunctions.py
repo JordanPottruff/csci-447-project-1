@@ -9,11 +9,14 @@ def loss_function(training_set, loss_function_type):
     for eachExample in training_set:
         # ... get needed variables from the data for our loss function ...
         actual_class, classes, probabilities, num_of_classes = extract_data(eachExample)
-
+        #print("Actual Class: " + str(actual_class))
+        #print("Classes: " + str(classes))
+        #print("Probabilities: " + str(probabilities))
+        #print("Number of classes: " + str(num_of_classes))
         # ... keep track of total loss for each example ...
         example_loss = 0
         # ... Loop through classes
-        for i in range(num_of_classes - 1):
+        for i in range(num_of_classes):
             # ... get targets of what the probabilities should of been ...
             truth = 0
             if actual_class != classes[i]:
@@ -22,12 +25,12 @@ def loss_function(training_set, loss_function_type):
                 truth = 1
 
             if loss_function_type == 'MSE':
-                print("Probability:" + str(probabilities[i]))
-                print("Class:" + str(classes[i]))
+                print("ProbabilityMSE:" + str(probabilities[i]))
+                print("ClassMSE:" + str(classes[i]))
                 example_loss += calculate_mean_square_error(truth, probabilities[i], num_of_classes)
             elif loss_function_type == 'Cross_Entropy':
-                print("Probability:" + str(probabilities[i]))
-                print("Class:" + str(classes[i]))
+                print("ProbabilityCE:" + str(probabilities[i]))
+                print("ClassCE:" + str(classes[i]))
                 example_loss += calculate_cross_entropy_error(truth, probabilities[i], num_of_classes)
             else:
                 print("Error: There was no loss_function created for the requested type.")
