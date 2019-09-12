@@ -4,7 +4,7 @@ import math
 import preprocessor as pr
 import classify as cl
 import cross_validation as cv
-
+import LossFunctions as lf
 # Proportion of data that belongs to test set when running algorithm without x-validation.
 TEST_SET_PROPORTION = 0.2
 
@@ -12,21 +12,29 @@ TEST_SET_PROPORTION = 0.2
 def run_breast_cancer_data_cross_fold():
     data = pr.open_breast_cancer_data()
     trials = cv.ten_fold_cross_validation(data)
-
+   
     accuracy_sum = 0
+    mean_square_error_loss = 0
+    cross_entropy_loss = 0
+    
     for trial in trials:
         training = trial["training"]
         testing = trial["testing"]
 
         results = cl.classify_breast_cancer_data(training, testing)
         accuracy_sum += calc_accuracy(results)
-
+        mean_square_error_loss += loss_function(results, 'MSE')
+        cross_entropy_loss += loss_function(results, 'Cross Entropy')
+    
     average_accuracy = accuracy_sum / 10
-
+    average_mse_loss = mean_square_error_loss / 10
+    average_cross_entropy_loss = cross_entropy_loss / 10
+    
     # TODO: use loss function on results. Right now we just print accuracy.
     print("\nbreast-cancer-wisconsin.data @cross-fold=10")
     print("Avg. Accuracy: " + str(average_accuracy))
-
+    print("Avg. Mean Square Error Loss: " + str(mean_square_error_loss))
+    print("Avg. Cross Entropy Error Loss: " + str(cross_entropy_loss))
 
 def run_glass_data_cross_fold():
     data = pr.open_glass_data()
