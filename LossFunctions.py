@@ -22,8 +22,12 @@ def loss_function(training_set, loss_function_type):
                 truth = 1
 
             if loss_function_type == 'MSE':
+                print("Probability:" + probabilities[i])
+                print("Class:" + classes[i])
                 example_loss += calculate_mean_square_error(truth, probabilities[i], num_of_classes)
             elif loss_function_type == 'Cross_Entropy':
+                print("Probability:" + probabilities[i])
+                print("Class:" + classes[i])
                 example_loss += calculate_cross_entropy_error(truth, probabilities[i], num_of_classes)
             else:
                 print("Error: There was no loss_function created for the requested type.")
@@ -49,7 +53,7 @@ def calculate_cross_entropy_error(truth, predicted, num_of_classes):
     # calculate a separate loss for each class label per observation and sum the result
     # H(p, q) =−∑∀x p(x)log(q(x))
     if predicted == 0:
-        predicted += .01
+        predicted += .001
     return ((-1) * (truth * m.log(predicted))/num_of_classes)  # Return the average loss for the example
 
 
