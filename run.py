@@ -23,8 +23,8 @@ def run_breast_cancer_data_cross_fold():
 
         results = cl.classify_breast_cancer_data(training, testing)
         accuracy_sum += calc_accuracy(results)
-        mean_square_error_loss += loss_function(results, 'MSE')
-        cross_entropy_loss += loss_function(results, 'Cross Entropy')
+        mean_square_error_loss += lf.loss_function(results, "MSE")
+        cross_entropy_loss += lf.loss_function(results, "Cross Entropy")
     
     average_accuracy = accuracy_sum / 10
     average_mse_loss = mean_square_error_loss / 10
@@ -33,8 +33,8 @@ def run_breast_cancer_data_cross_fold():
     # TODO: use loss function on results. Right now we just print accuracy.
     print("\nbreast-cancer-wisconsin.data @cross-fold=10")
     print("Avg. Accuracy: " + str(average_accuracy))
-    print("Avg. Mean Square Error Loss: " + str(mean_square_error_loss))
-    print("Avg. Cross Entropy Error Loss: " + str(cross_entropy_loss))
+    print("Avg. Mean Square Error Loss: " + str(average_mse_loss))
+    print("Avg. Cross Entropy Error Loss: " + str(average_cross_entropy_loss))
 
 def run_glass_data_cross_fold():
     data = pr.open_glass_data()
@@ -237,13 +237,13 @@ def pick_highest(probability_map):
     return max_class
 
 
-run_breast_cancer_data(50)
-run_glass_data(50)
-run_house_data(50)
-run_iris_data(50)
-run_soybean_data(50)
+# run_breast_cancer_data(50)
+# run_glass_data(50)
+# run_house_data(50)
+# run_iris_data(50)
+# run_soybean_data(50)
 run_breast_cancer_data_cross_fold()
-run_glass_data_cross_fold()
-run_house_data_cross_fold()
-run_iris_data_cross_fold()
-run_soybean_data_cross_fold()
+# run_glass_data_cross_fold()
+# run_house_data_cross_fold()
+# run_iris_data_cross_fold()
+# run_soybean_data_cross_fold()

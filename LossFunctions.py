@@ -31,6 +31,7 @@ def loss_function(training_set, loss_function_type):
         total_loss += example_loss
     loss_average_of_testset = total_loss / len(training_set)
     print("Our averaged loss value on this training set using cross entropy is [0]", format(loss_average_of_testset))
+    return loss_average_of_testset
 
 
 def calculate_mean_square_error(truth, predicted, num_of_classes):
@@ -68,7 +69,7 @@ def extract_data(each_example):
         probabilities.append(probability_dictionary[cls])
 
     # Error checking
-    if len(probailities) != len(classes):
+    if len(probabilities) != len(classes):
         print("Error, we should have equal number of probabilities and classes")
 
     num_of_classes = len(classes)
