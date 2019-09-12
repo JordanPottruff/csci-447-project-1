@@ -10,106 +10,23 @@ TEST_SET_PROPORTION = 0.2
 
 
 def run_breast_cancer_data_cross_fold():
-    data = pr.open_breast_cancer_data()
-    trials = cv.ten_fold_cross_validation(data)
-   
-    accuracy_sum = 0
-    mean_square_error_loss = 0
-    cross_entropy_loss = 0
-    
-    for trial in trials:
-        training = trial["training"]
-        testing = trial["testing"]
+    run_cross_fold(pr.open_breast_cancer_data(), cl.classify_breast_cancer_data, "breast-cancer-wisconsin.data")
 
-        results = cl.classify_breast_cancer_data(training, testing)
-        accuracy_sum += calc_accuracy(results)
-        mean_square_error_loss += lf.loss_function(results, "MSE")
-        cross_entropy_loss += lf.loss_function(results, "Cross_Entropy")
-    
-    average_accuracy = accuracy_sum / 10
-    average_mse_loss = mean_square_error_loss / 10
-    average_cross_entropy_loss = cross_entropy_loss / 10
-    
-    # TODO: use loss function on results. Right now we just print accuracy.
-    print("\nbreast-cancer-wisconsin.data @cross-fold=10")
-    print("Avg. Accuracy: " + str(average_accuracy))
-    print("Avg. Mean Square Error Loss: " + str(average_mse_loss))
-    print("Avg. Cross Entropy Error Loss: " + str(average_cross_entropy_loss))
 
 def run_glass_data_cross_fold():
-    data = pr.open_glass_data()
-    trials = cv.ten_fold_cross_validation(data)
-
-    accuracy_sum = 0
-    for trial in trials:
-        training = trial["training"]
-        testing = trial["testing"]
-
-        results = cl.classify_glass_data(training, testing)
-        accuracy_sum += calc_accuracy(results)
-
-    average_accuracy = accuracy_sum / 10
-
-    # TODO: use loss function on results. Right now we just print accuracy.
-    print("\nglass.data @cross-fold=10")
-    print("Avg. Accuracy: " + str(average_accuracy))
+    run_cross_fold(pr.open_glass_data(), cl.classify_glass_data, "glass.data")
 
 
 def run_house_data_cross_fold():
-    data = pr.open_house_votes_data()
-    trials = cv.ten_fold_cross_validation(data)
-
-    accuracy_sum = 0
-    for trial in trials:
-        training = trial["training"]
-        testing = trial["testing"]
-
-        results = cl.classify_house_data(training, testing)
-        accuracy_sum += calc_accuracy(results)
-
-    average_accuracy = accuracy_sum / 10
-
-    # TODO: use loss function on results. Right now we just print accuracy.
-    print("\nhouse-votes-84.data @cross-fold=10")
-    print("Avg. Accuracy: " + str(average_accuracy))
+    run_cross_fold(pr.open_house_votes_data(), cl.classify_house_data, "house-votes-84.data")
 
 
 def run_iris_data_cross_fold():
-    data = pr.open_iris_data()
-    trials = cv.ten_fold_cross_validation(data)
-
-    accuracy_sum = 0
-    for trial in trials:
-        training = trial["training"]
-        testing = trial["testing"]
-
-        results = cl.classify_iris_data(training, testing)
-        accuracy_sum += calc_accuracy(results)
-
-    average_accuracy = accuracy_sum / 10
-
-    # TODO: use loss function on results. Right now we just print accuracy.
-    print("\niris.data @cross-fold=10")
-    print("Avg. Accuracy: " + str(average_accuracy))
+    run_cross_fold(pr.open_iris_data(), cl.classify_iris_data, "iris.data")
 
 
 def run_soybean_data_cross_fold():
-    data = pr.open_soybean_small()
-    trials = cv.ten_fold_cross_validation(data)
-
-    accuracy_sum = 0
-    for trial in trials:
-        training = trial["training"]
-        testing = trial["testing"]
-
-        results = cl.classify_soybean_data(training, testing)
-        accuracy_sum += calc_accuracy(results)
-
-    average_accuracy = accuracy_sum / 10
-
-    # TODO: use loss function on results. Right now we just print accuracy.
-    print("\nsoybean-small.data @cross-fold=10")
-    print("Avg. Accuracy: " + str(average_accuracy))
+    run_cross_fold(pr.open_soybean_small(), cl.classify_soybean_data, "soybean-small.data")
 
 
 def run_breast_cancer_data(n):
@@ -189,6 +106,33 @@ def run_soybean_data(n):
     # TODO: use loss function on results. Right now we just print accuracy.
     print("\nsoybean-small.data @n=" + str(n))
     print("Avg. Accuracy: " + str(average_accuracy))
+
+
+def run_cross_fold(data, classification_function, filename):
+    trials = cv.ten_fold_cross_validation(data)
+
+    accuracy_sum = 0
+    mean_square_error_loss = 0
+    cross_entropy_loss = 0
+
+    for trial in trials:
+        training = trial["training"]
+        testing = trial["testing"]
+
+        results = classification_function(training, testing)
+
+        accuracy_sum += calc_accuracy(results)
+        mean_square_error_loss += lf.loss_function(results, "MSE")
+        cross_entropy_loss += lf.loss_function(results, "Cross_Entropy")
+
+    average_accuracy = accuracy_sum / 10
+    average_mse_loss = mean_square_error_loss / 10
+    average_cross_entropy_loss = cross_entropy_loss / 10
+
+    print("\n" + str(filename) + " @cross-fold=10")
+    print("Avg. Accuracy: " + str(average_accuracy))
+    print("Avg. Mean Square Error Loss: " + str(average_mse_loss))
+    print("Avg. Cross Entropy Error Loss: " + str(average_cross_entropy_loss))
 
 
 # (1) shuffles the data, and (2) segments it into a training and test set.
