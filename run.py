@@ -24,7 +24,7 @@ def run_breast_cancer_data_cross_fold():
         results = cl.classify_breast_cancer_data(training, testing)
         accuracy_sum += calc_accuracy(results)
         mean_square_error_loss += lf.loss_function(results, "MSE")
-        cross_entropy_loss += lf.loss_function(results, "Cross Entropy")
+        cross_entropy_loss += lf.loss_function(results, "Cross_Entropy")
     
     average_accuracy = accuracy_sum / 10
     average_mse_loss = mean_square_error_loss / 10
