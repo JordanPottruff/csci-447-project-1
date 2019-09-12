@@ -49,7 +49,7 @@ def calculate_cross_entropy_error(truth, predicted, num_of_classes):
     # calculate a separate loss for each class label per observation and sum the result
     # H(p, q) =−∑∀x p(x)log(q(x))
     if predicted == 0:
-        predicted += .01
+        predicted += .001
     return ((-1) * (truth * m.log(predicted))/num_of_classes)  # Return the average loss for the example
 
 
