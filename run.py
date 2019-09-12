@@ -8,56 +8,72 @@ import LossFunctions as lf
 # Proportion of data that belongs to test set when running algorithm without x-validation.
 TEST_SET_PROPORTION = 0.2
 
-
+# ---------------------------------------------
 # FUNCTIONS FOR RUNNING CROSS FOLDS ON THE DATA
+# ---------------------------------------------
 
-def run_breast_cancer_data_cross_fold():
-    run_cross_fold(pr.open_breast_cancer_data(), cl.classify_breast_cancer_data, "breast-cancer-wisconsin.data")
-
-
-def run_glass_data_cross_fold():
-    run_cross_fold(pr.open_glass_data(), cl.classify_glass_data, "glass.data")
+# Runs a 10-fold cross validation of our Naive Bayes classifier on the breast cancer data set.
+def run_breast_cancer_data_cross_validation():
+    run_cross_validation(pr.open_breast_cancer_data(), cl.classify_breast_cancer_data, "breast-cancer-wisconsin.data")
 
 
-def run_house_data_cross_fold():
-    run_cross_fold(pr.open_house_votes_data(), cl.classify_house_data, "house-votes-84.data")
+# Runs a 10-fold cross validation of our Naive Bayes classifier on the glass data set.
+def run_glass_data_cross_validation():
+    run_cross_validation(pr.open_glass_data(), cl.classify_glass_data, "glass.data")
 
 
-def run_iris_data_cross_fold():
-    run_cross_fold(pr.open_iris_data(), cl.classify_iris_data, "iris.data")
+# Runs a 10-fold cross validation of our Naive Bayes classifier on the house votes data set.
+def run_house_data_cross_validation():
+    run_cross_validation(pr.open_house_votes_data(), cl.classify_house_data, "house-votes-84.data")
 
 
-def run_soybean_data_cross_fold():
-    run_cross_fold(pr.open_soybean_small(), cl.classify_soybean_data, "soybean-small.data")
+# Runs a 10-fold cross validation of our Naive Bayes classifier on the iris data set.
+def run_iris_data_cross_validation():
+    run_cross_validation(pr.open_iris_data(), cl.classify_iris_data, "iris.data")
 
 
+# Runs a 10-fold cross validation of our Naive Bayes classifier on the soybean data set.
+def run_soybean_data_cross_validation():
+    run_cross_validation(pr.open_soybean_small(), cl.classify_soybean_data, "soybean-small.data")
+
+
+# ----------------------------------------------------
 # FUNCTIONS FOR RUNNING WITH 20-80 TEST/TRAINING SPLIT
+# ----------------------------------------------------
 
 
+# Runs a 20-80 test/training split n-times on the breast cancer data set, returning the averages of our loss metrics.
 def run_breast_cancer_data(n):
     run(n, pr.open_breast_cancer_data(), cl.classify_breast_cancer_data, "breast-cancer-wisconsin.data")
 
 
+# Runs a 20-80 test/training split n-times on the glass data set, returning the averages of our loss metrics.
 def run_glass_data(n):
     run(n, pr.open_glass_data(), cl.classify_glass_data, "glass.data")
 
 
+# Runs a 20-80 test/training split n-times on the house votes data set, returning the averages of our loss metrics.
 def run_house_data(n):
     run(n, pr.open_house_votes_data(), cl.classify_house_data, "house-votes-84.data")
 
 
+# Runs a 20-80 test/training split n-times on the iris data set, returning the averages of our loss metrics.
 def run_iris_data(n):
     run(n, pr.open_iris_data(), cl.classify_iris_data, "iris.data")
 
 
+# Runs a 20-80 test/training split n-times on the soybean data set, returning the averages of our loss metrics.
 def run_soybean_data(n):
     run(n, pr.open_soybean_small(), cl.classify_soybean_data, "soybean-small.data")
 
-
+# ----------------------
 # MISC. HELPER FUNCTIONS
+# ----------------------
 
 
-def run_cross_fold(data, classification_function, filename):
+# Runs a 10-fold cross validation given a 2D list of the data, the function that returns the result of the Naive Bayes
+# classifier, and the file name of the data set. Outputs the average metrics across all folds to the console.
+def run_cross_validation(data, classification_function, filename):
     trials = cv.ten_fold_cross_validation(data)
 
     accuracy_sum = 0
@@ -84,6 +100,9 @@ def run_cross_fold(data, classification_function, filename):
     print("Avg. Cross Entropy Error Loss: " + str(average_cross_entropy_loss))
 
 
+# Runs the Naive Bayes classification on a random 20/80 test/training split n-times. Requires the number of times to
+# run the classification, a 2D list of the data, the function that returns the result of the Naive Bayes classifier,
+# and the file name of the data set. Outputs the average metrics across all folds to the console.
 def run(n, data, classification_function, filename):
     accuracy_sum = 0
     mean_square_error_loss = 0
@@ -158,8 +177,8 @@ run_glass_data(50)
 run_house_data(50)
 run_iris_data(50)
 run_soybean_data(50)
-run_breast_cancer_data_cross_fold()
-run_glass_data_cross_fold()
-run_house_data_cross_fold()
-run_iris_data_cross_fold()
-run_soybean_data_cross_fold()
+run_breast_cancer_data_cross_validation()
+run_glass_data_cross_validation()
+run_house_data_cross_validation()
+run_iris_data_cross_validation()
+run_soybean_data_cross_validation()
