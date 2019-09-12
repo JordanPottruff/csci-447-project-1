@@ -27,14 +27,15 @@ def cross_validation(data, folds=10):
 
 # Returns an array of a dictionary of keys: "testing" and "training" and values: arrays of data.
 # Each key is mapped to a value of a 2D array of the data respective to the key.
-# Input: Data (as a 2D list) and number of segments or folds to split the data
-def ten_fold_cross_validation(data, seg):
+# Input: Data (as a 2D list)
+def ten_fold_cross_validation(data):
+    seg = 10
     avg = math.ceil(len(data) / seg)
     array_of_segments = []
     array_of_dictionary = []
     last = 0.0
 
-    # Populates array_of_segments by splitting the data to the number of segments
+    # Populates array_of_segments by splitting the data to 10
     while last < len(data):
         array_of_segments.append(data[int(last):int(last + avg)])
         last += avg
@@ -49,43 +50,31 @@ def ten_fold_cross_validation(data, seg):
             training_set = training_set + sets[:]
         validation['training'] = training_set
         array_of_dictionary.append(validation)
-
-    # Prints the data to verify
-    counter = 1
-    for d in array_of_dictionary:
-        print("SET: " + str(counter))
-        counter += 1
-        for key, value in d.items():
-            print(key, value)
-
     return array_of_dictionary
 
 
-bc_data = pr.open_breast_cancer_data()
-# print("BREAST CANCER DATA")
+# TEST EACH DATA SET
+# --------------------------------------
+# bc_data = pr.open_breast_cancer_data()
 # cross_validation(bc_data, 10)
-# bc_array = ten_fold_cross_validation(bc_data, 10)
+# ten_fold_cross_validation(bc_data)
 
-iris_data = pr.open_iris_data()
-# print("IRIS DATA")
+# iris_data = pr.open_iris_data()
 # cross_validation(iris_data, 10)
-# ten_fold_cross_validation(iris_data, 10)
+# ten_fold_cross_validation(iris_data)
 
-glass_data = pr.open_glass_data()
-# print("GLASS DATA")
+# glass_data = pr.open_glass_data()
 # cross_validation(glass_data, 10)
-# ten_fold_cross_validation(glass_data, 10)
+# ten_fold_cross_validation(glass_data)
 
-house_data = pr.open_house_votes_data()
-# print("HOUSE DATA")
+# house_data = pr.open_house_votes_data()
 # cross_validation(house_data, 10)
-# ten_fold_cross_validation(house_data, 10)
+# ten_fold_cross_validation(house_data)
 
 
-soybean_data = pr.open_soybean_small()
-print("SOYBEAN DATA")
+# soybean_data = pr.open_soybean_small()
 # cross_validation(soybean_data, 10)
-ten_fold_cross_validation(soybean_data, 10)
+# ten_fold_cross_validation(soybean_data)
 
 
 
