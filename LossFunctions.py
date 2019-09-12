@@ -1,5 +1,4 @@
 import math as m
-import numpy as np
 
 
 def loss_function(training_set, loss_function_type):
