@@ -29,6 +29,8 @@ def cross_validation(data, folds=10):
 # Each key is mapped to a value of a 2D array of the data respective to the key.
 # Input: Data (as a 2D list)
 def ten_fold_cross_validation(data):
+    # Shuffles the data to prevent data from being grouped
+    random.shuffle(data)
     seg = 10
     avg = math.ceil(len(data) / seg)
     array_of_segments = []
