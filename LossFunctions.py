@@ -23,9 +23,9 @@ def loss_function(training_set, loss_function_type):
                 truth = 1
 
             if loss_function_type == 'MSE':
-                example_loss += calculate_mean_square_error(truth, probabilities[i])
+                example_loss += calculate_mean_square_error(truth, probabilities[i], num_of_classes)
             elif loss_function_type == 'Cross_Entropy':
-                example_loss += calculate_cross_entropy_error(truth, probabilities[i])
+                example_loss += calculate_cross_entropy_error(truth, probabilities[i], num_of_classes)
             else:
                 print("Error: There was no loss_function created for the requested type.")
 
@@ -34,15 +34,15 @@ def loss_function(training_set, loss_function_type):
     print("Our averaged loss value on this training set using cross entropy is [0]", format(loss_average_of_testset))
 
 
-def calculate_mean_square_error(truth, predicted):
+def calculate_mean_square_error(truth, predicted, num_of_classes):
     """ Method to calculate the mean_square_error of a model.    """
     # Mean Square Error (MSE) loss function
     # https://jamesmccaffrey.wordpress.com/2013/11/05/why-you-should-use-cross-entropy-error-instead-of-classification-error-or-mean-squared-error-for-neural-network-classifier-training/
     # Mean square error function
-    return (predicted - truth)**2
+    return ((predicted - truth)**2/num_of_classes)
 
 
-def calculate_cross_entropy_error(truth, predicted):
+def calculate_cross_entropy_error(truth, predicted, num_of_classes):
     """ Loss Function algorithm that determines our algorithms performs on the data-set provided.   """
     # Cross Entropy loss function
     # https://ml-cheatsheet.readthedocs.io/en/latest/loss_functions.html#cross-entropy
@@ -50,7 +50,7 @@ def calculate_cross_entropy_error(truth, predicted):
     # H(p, q) =−∑∀x p(x)log(q(x))
     if predicted == 0:
         print("Error: To accurate? Find me in loss functions as we cannot have a natural log of 0")
-    return (-1) * (truth * m.log(predicted))
+    return ((-1) * (truth * m.log(predicted))/num_of_classes)  # Return the average loss for the example
 
 
 def extract_data(each_example):
