@@ -1,7 +1,15 @@
+# validation.py
+#
+# Defines functions for validating naive bayes by manipulating our original data. This includes an implementation of
+# 10-fold cross validation that returns the 10 pairs of training and test sets. It also includes a function for feature
+# shuffling.
 
 import random
 import math
 
+# ----------------------------------
+# TOP-LEVEL FUNCTIONS FOR VALIDATION
+# ----------------------------------
 
 # Returns an array of a dictionary of keys: "testing" and "training" and values: arrays of data.
 # Each key is mapped to a value of a 2D array of the data respective to the key.
@@ -47,6 +55,11 @@ def feature_shuffling(data, attribute_cols):
             new_data = shuffle_col(new_data, col)
             count += 1
     return new_data
+
+
+# -------------------------------
+# HELPER FUNCTIONS FOR VALIDATION
+# -------------------------------
 
 
 # Helper function that shuffles a given column in the data.

@@ -5,7 +5,10 @@
 
 import naive_bayes as nb
 
-# OVERVIEW:
+
+# ------------------------------------------------------------------------
+# FUNCTIONS FOR EXECUTING THE NAIVE BAYES CLASSIFIER ON SPECIFIC DATA SETS
+# ------------------------------------------------------------------------
 # Each returns the results of classifying the test data using the specified training data. The result is a list of
 # tuples that represents the results for each row in the test data. The first item in the tuple is the actual class for
 # the observation, and the second item in the tuple is a map of each class to the calculated probability that the
@@ -54,6 +57,11 @@ def classify_soybean_data(training, test):
     attribute_cols = list(range(35))
     class_col = 35
     return classify(training, test, classes, attribute_cols, class_col)
+
+
+# -------------------------------------------------------------------
+# HELPER FUNCTION FOR CLASSIFYING BASED ON CLASSES, COLUMN TYPES, ETC
+# -------------------------------------------------------------------
 
 
 # Generalized function for classifying observations in a test set using observations in a training set.

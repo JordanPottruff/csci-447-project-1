@@ -1,3 +1,13 @@
+# naive_bayes.py
+#
+# Defines the implementation of naive bayes. The functions in this file are meant to be abstract, which causes them to
+# take in additional parameters such as a list of attribute columns, class column, class name, etc. The top-level
+# function for executing the classifier is calc_classification_probability.
+
+
+# -----------------------------------------------------------
+# TOP-LEVEL FUNCTION FOR EXECUTING THE NAIVE BAYES CLASSIFIER
+# -----------------------------------------------------------
 
 
 # Calculates C(x), or the probability that the specified observation belongs to the specified class based on the
@@ -14,9 +24,9 @@ def calc_classification_probability(training_data, observation, attribute_cols, 
     return calc_class_probability(training_data, class_col, class_name) * product
 
 
-# NOTE:
-# The functions below are used for calculating the classification probability, and should not need to be referenced
-# outside of this file.
+# -----------------------------------------------------------
+# HELPER FUNCTIONS FOR CALCULATING CLASSIFICATION PROBABILITY
+# -----------------------------------------------------------
 
 
 # Calculates F(Aj = ak, C = ci), or (roughly) the probability of examples belonging to the specified class, with the
