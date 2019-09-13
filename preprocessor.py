@@ -15,6 +15,10 @@ IRIS_DATA_ATTR_COLS = list(range(0, 4))
 SOYBEAN_SMALL_ATTR_COLS = list(range(0, 35))
 
 
+# -----------------------------------------------------
+# FUNCTIONS FOR OPENING CLEANED DATA SETS AS A 2D LIST.
+# -----------------------------------------------------
+
 # Returns the 2D list of the breast cancer data. Missing values removed, no categorizing necessary.
 def open_breast_cancer_data():
     original = get_original_data(BREAST_CANCER_DATA_FILE_NAME)
@@ -63,7 +67,9 @@ def open_soybean_small():
     return remove_missing_rows(data)
 
 
-# Functions below are used for doing the actual preprocessing.
+# ---------------------------------------
+# HELPER FUNCTIONS FOR PREPROCESSING DATA
+# ---------------------------------------
 
 
 # Returns the data from the file as a 2D list (table).
@@ -93,16 +99,6 @@ def remove_missing_rows(data):
         if '?' not in line:
             new_data.append(line)
     return new_data
-
-
-# Randomly selects a non-missing value from the column.
-def get_replacement(data, col, class_col, class_name):
-    non_missing = []
-    for line in data:
-        if line[col] != '?' and line[class_col] == class_name:
-            non_missing.append(line[col])
-
-    return random.choice(non_missing)
 
 
 # Prints the data (2D list) line-by-line.
