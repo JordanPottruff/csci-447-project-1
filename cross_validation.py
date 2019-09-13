@@ -32,6 +32,8 @@ def ten_fold_cross_validation(data):
     return array_of_dictionary
 
 
+# Returns the original data but with 10% of the features shuffled. Specifically, if there are n columns, then
+# ceil(n/10) features are shuffled.
 def feature_shuffling(data, attribute_cols):
     new_data = data.copy()
     num_shuffle = math.ceil(0.10 * len(attribute_cols))
@@ -46,6 +48,7 @@ def feature_shuffling(data, attribute_cols):
     return new_data
 
 
+# Helper function that shuffles a given column in the data.
 def shuffle_col(data, col):
     column = []
     for line in data:
