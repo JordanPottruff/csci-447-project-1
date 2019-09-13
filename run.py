@@ -3,14 +3,18 @@ import math
 
 import preprocessor as pr
 import classify as cl
-import cross_validation as cv
-import LossFunctions as lf
+import validation as cv
+import loss_function as lf
+
+
 # Proportion of data that belongs to test set when running algorithm without x-validation.
 TEST_SET_PROPORTION = 0.2
+
 
 # ---------------------------------------------
 # FUNCTIONS FOR RUNNING CROSS FOLDS ON THE DATA
 # ---------------------------------------------
+
 
 # Runs a 10-fold cross validation of our Naive Bayes classifier on the breast cancer data set.
 def run_breast_cancer_data_cross_validation():
@@ -247,11 +251,4 @@ def main():
 
 
 main()
-
-
-
-
-
-
-
 
