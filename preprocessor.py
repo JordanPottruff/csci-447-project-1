@@ -1,6 +1,5 @@
 import csv
 import math
-import random
 
 BREAST_CANCER_DATA_FILE_NAME = "data/breast-cancer-wisconsin.data"
 GLASS_DATA_FILE_NAME = "data/glass.data"
