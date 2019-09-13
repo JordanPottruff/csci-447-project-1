@@ -1,3 +1,11 @@
+# run.py
+#
+# This is the top-level file of our project. It includes three sets of five functions each that are used for running our
+# classifier. The first set does cross-fold validation, the second does a 80/20 training/test split n-times, and the
+# third also does an 80/20 split but adds feature shuffling. The main() function listed at the very bottom of the file
+# runs each one of these tests on each data set, using n=25 when applicable. The results of the tests are displayed
+# directly to the standard output, and include the (1) accuracy, (2) mean square error, and (3) cross entropy error.
+
 import random
 import math
 
