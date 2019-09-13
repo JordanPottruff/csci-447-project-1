@@ -1,3 +1,11 @@
+# preprocessor.py
+#
+# Defines functions for pre-processing data sets. These include generalized functions that remove missing values and
+# discretize data using methodologies discussed in our report. The top-level functions referenced outside this file are
+# the functions that "open" each data set, where open means to pull in the data as a 2D list from the files and do the
+# necessary pre-processing. These are written for the specific data sets and utilize the general functions mentioned
+# earlier.
+
 import csv
 import math
 
