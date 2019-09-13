@@ -160,10 +160,12 @@ def run_cross_validation(data, classification_function, filename):
 # run the classification, a 2D list of the data, the function that returns the result of the Naive Bayes classifier,
 # and the file name of the data set. Outputs the average metrics across all folds to the console.
 def run(n, data, classification_function, filename):
+    # We will average the different metrics across all n-runs.
     accuracy_sum = 0
     mean_square_error_loss = 0
     cross_entropy_loss = 0
 
+    # We shuffle and split the data n-times, calculating the necessary metrics each time.
     for i in range(n):
         training, test = shuffle_and_split(data)
         results = classification_function(training, test)
@@ -172,10 +174,12 @@ def run(n, data, classification_function, filename):
         mean_square_error_loss += lf.loss_function(results, "MSE")
         cross_entropy_loss += lf.loss_function(results, "Cross_Entropy")
 
+    # Calculate the averages:
     average_accuracy = accuracy_sum / n
     average_mse_loss = mean_square_error_loss / n
     average_cross_entropy_loss = cross_entropy_loss / n
 
+    # Display results to the user:
     print("\n" + filename + " @n=" + str(n))
     print("Avg. Accuracy: " + str(average_accuracy))
     print("Avg. Mean Square Error Loss: " + str(average_mse_loss))
