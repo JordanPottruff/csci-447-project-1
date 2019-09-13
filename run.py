@@ -66,6 +66,14 @@ def run_iris_data(n):
 def run_soybean_data(n):
     run(n, pr.open_soybean_small(), cl.classify_soybean_data, "soybean-small.data")
 
+
+# -----------------------------------------------------
+# FUNCTIONS FOR RUNNING WITH 10% OF ATTRIBUTES SHUFFLED
+# -----------------------------------------------------
+
+def run_breast_cancer_ten_shuffle_data(n):
+    run(n, pr.open_breast_cancer_data(), cl.classify_breast_cancer_data, )
+
 # ----------------------
 # MISC. HELPER FUNCTIONS
 # ----------------------
@@ -172,13 +180,13 @@ def pick_highest(probability_map):
     return max_class
 
 
-run_breast_cancer_data(50)
-run_glass_data(50)
-run_house_data(50)
-run_iris_data(50)
-run_soybean_data(50)
-run_breast_cancer_data_cross_validation()
-run_glass_data_cross_validation()
-run_house_data_cross_validation()
-run_iris_data_cross_validation()
-run_soybean_data_cross_validation()
+# run_breast_cancer_data(50)
+# run_glass_data(50)
+# run_house_data(50)
+# run_iris_data(50)
+# run_soybean_data(50)
+# run_breast_cancer_data_cross_validation()
+# run_glass_data_cross_validation()
+# run_house_data_cross_validation()
+# run_iris_data_cross_validation()
+# run_soybean_data_cross_validation()
