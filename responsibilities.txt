@@ -4,6 +4,6 @@ helped write run methods in run.py.
 Jordan Pottruff - helped with naive bayes implementation in naive_bayes.py, wrote preprocessing functions in
 preprocessor.py, helped write run methods in run.py.
 
-Elizabeth Hamaoka - helped with cross validation in validation.py, wrote feature shufflign in validation.py.
+Elizabeth Hamaoka - helped with cross validation in validation.py, wrote feature shuffling in validation.py.
 
 Jacob Weikert - researched and wrote loss functions in loss_function.py.
