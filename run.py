@@ -66,6 +66,14 @@ def run_iris_data(n):
 def run_soybean_data(n):
     run(n, pr.open_soybean_small(), cl.classify_soybean_data, "soybean-small.data")
 
+
+# -----------------------------------------------------
+# FUNCTIONS FOR RUNNING WITH 10% OF ATTRIBUTES SHUFFLED
+# -----------------------------------------------------
+
+def run_breast_cancer_ten_shuffle_data(n):
+    run(n, pr.open_breast_cancer_data(), cl.classify_breast_cancer_data, )
+
 # ----------------------
 # MISC. HELPER FUNCTIONS
 # ----------------------
@@ -171,14 +179,53 @@ def pick_highest(probability_map):
             max_class = potential_class
     return max_class
 
+# Shuffle 10 per
+def shuffle_10_percent_feature(data, attribute_index_array):
+    print(attribute_index_array)
+    shuffle = []
+    for i in range(len(data)):
 
-run_breast_cancer_data(50)
-run_glass_data(50)
-run_house_data(50)
-run_iris_data(50)
-run_soybean_data(50)
-run_breast_cancer_data_cross_validation()
-run_glass_data_cross_validation()
-run_house_data_cross_validation()
-run_iris_data_cross_validation()
-run_soybean_data_cross_validation()
+        for j in range(len(data[i])):
+            attribute = []
+            if attribute_index_array[j] is 'Y':
+                attribute.append(data[i][j])
+            print(attribute)
+#            shuffle.append(attribute)
+    # print(shuffle)
+
+
+def run_shuffle_breast_cancer_feature():
+    bc_data = pr.open_breast_cancer_data()
+    attributes_to_shuffle = []
+    num_of_attributes = 11
+    for i in range(num_of_attributes):
+        probability = random.randrange(num_of_attributes)
+        if probability is 0:
+            attributes_to_shuffle = attributes_to_shuffle + ['Y']
+        else:
+            attributes_to_shuffle = attributes_to_shuffle + ['N']
+    attributes_to_shuffle[0] = 'N'
+    attributes_to_shuffle[-1] = 'N'
+    shuffle_10_percent_feature(bc_data, attributes_to_shuffle)
+
+
+run_shuffle_breast_cancer_feature()
+
+# run_breast_cancer_data(50)
+# run_glass_data(50)
+# run_house_data(50)
+# run_iris_data(50)
+# run_soybean_data(50)
+
+# run_breast_cancer_data_cross_validation()
+# run_glass_data_cross_validation()
+# run_house_data_cross_validation()
+# run_iris_data_cross_validation()
+# run_soybean_data_cross_validation()
+
+# run_breast_cancer_data_cross_fold()
+# run_glass_data_cross_fold()
+# run_house_data_cross_fold()
+# run_iris_data_cross_fold()
+# run_soybean_data_cross_fold()
+
