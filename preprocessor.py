@@ -8,6 +8,12 @@ HOUSE_VOTES_DATA_FILE_NAME = "data/house-votes-84.data"
 IRIS_DATA_FILE_NAME = "data/iris.data"
 SOYBEAN_SMALL_DATA_NAME = "data/soybean-small.data"
 
+BREAST_CANCER_ATTR_COLS = list(range(1, 10))
+GLASS_DATA_ATTR_COLS = list(range(1, 10))
+HOUSE_VOTES_DATA_ATTR_COLS = list(range(1, 17))
+IRIS_DATA_ATTR_COLS = list(range(0, 4))
+SOYBEAN_SMALL_ATTR_COLS = list(range(0, 35))
+
 
 # Returns the 2D list of the breast cancer data. Missing values removed, no categorizing necessary.
 def open_breast_cancer_data():

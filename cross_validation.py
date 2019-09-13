@@ -1,8 +1,6 @@
-import preprocessor as pr
+
 import random
 import math
-import pandas as pd
-import numpy as np
 
 # Returns an array of a dictionary of keys: "testing" and "training" and values: arrays of data.
 # Each key is mapped to a value of a 2D array of the data respective to the key.
@@ -34,34 +32,30 @@ def ten_fold_cross_validation(data):
     return array_of_dictionary
 
 
-def feature_shuffling(data):
-    data_set = pd.DataFrame(data)
-    num_shuffle = math.ceil(0.10 * data_set.shape[1])
-    for i in range(0, num_shuffle):
-        rand_col = random.randint(0, data_set.shape[1])
-        to_shuffle = data_set[rand_col]
-        shuffled = np.random.permutation(data_set[rand_col].values)
-    return shuffled
+def feature_shuffling(data, attribute_cols):
+    new_data = data.copy()
+    num_shuffle = math.ceil(0.10 * len(attribute_cols))
+    columns = []
+    count = 0
+    while count < num_shuffle:
+        col = random.choice(attribute_cols)
+        if columns.count(col) == 0:
+            columns.append(col)
+            new_data = shuffle_col(new_data, col)
+            count += 1
+    return new_data
 
 
-# TEST EACH DATA SET
-# --------------------------------------
-# bc_data = pr.open_breast_cancer_data()
-# ten_fold_cross_validation(bc_data)
-# feature_shuffling(bc_data)
+def shuffle_col(data, col):
+    column = []
+    for line in data:
+        column.append(line[col])
 
-# iris_data = pr.open_iris_data()
-# ten_fold_cross_validation(iris_data)
-# feature_shuffling(iris_data)
+    random.shuffle(column)
 
-# glass_data = pr.open_glass_data()
-# ten_fold_cross_validation(glass_data)
-# feature_shuffling(glass_data)
-
-# house_data = pr.open_house_votes_data()
-# ten_fold_cross_validation(house_data)
-# feature_shuffling(house_data)
-
-# soybean_data = pr.open_soybean_small()
-# ten_fold_cross_validation(soybean_data)
-# feature_shuffling(soybean_data)
+    new_data = []
+    for i in range(len(data)):
+        line = data[i].copy()
+        line[col] = column[i]
+        new_data.append(line)
+    return new_data
