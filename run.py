@@ -223,7 +223,8 @@ def pick_highest(probability_map):
 # Runs all 80/20 split, 80/20 shuffle split, and 10-Fold Cross Validation test on loss functions (Mean Square Error Loss
 # and Cross Entropy Error Loss) n number of times to determine the average accuracy of each test set.
 def main():
-    n = 50
+    n = 25
+    # Run basic test with a 80/20 split.
     print("\n---------------------------------------")
     print("TESTING SET: 80/20 SPLIT")
     print("---------------------------------------")
@@ -232,6 +233,7 @@ def main():
     run_house_data(n)
     run_iris_data(n)
     run_soybean_data(n)
+    # Run test with an 80/20 split and 10% feature shuffling.
     print("\n---------------------------------------")
     print("TESTING SET: 80/20 SHUFFLE SPLIT")
     print("---------------------------------------")
@@ -240,6 +242,7 @@ def main():
     run_house_shuffle_data(n)
     run_iris_shuffle_data(n)
     run_soy_bean_shuffle_data(n)
+    # Run 10-fold cross validation.
     print("\n---------------------------------------")
     print("TESTING SET: 10 FOLD CROSS VALIDATION")
     print("---------------------------------------")
