@@ -71,8 +71,44 @@ def run_soybean_data(n):
 # FUNCTIONS FOR RUNNING WITH 10% OF ATTRIBUTES SHUFFLED
 # -----------------------------------------------------
 
-def run_breast_cancer_ten_shuffle_data(n):
-    run(n, pr.open_breast_cancer_data(), cl.classify_breast_cancer_data, )
+
+# Runs a ten percent attribute shuffle split n-times on the breast cancer data,
+# returning the averages of our loss metrics.
+def run_breast_cancer_shuffle_data(n):
+    data = pr.open_breast_cancer_data()
+    data = cv.feature_shuffling(data, pr.BREAST_CANCER_ATTR_COLS)
+    run(n, data, cl.classify_breast_cancer_data, pr.BREAST_CANCER_DATA_FILE_NAME)
+
+
+# Runs a ten percent attribute shuffle split n-times on the glass data, returning the averages of our loss metrics.
+def run_glass_shuffle_data(n):
+    data = pr.open_glass_data()
+    data = cv.feature_shuffling(data, pr.GLASS_DATA_ATTR_COLS)
+    run(n, data, cl.classify_glass_data, pr.GLASS_DATA_FILE_NAME)
+
+
+# Runs a ten percent attribute shuffle split n-times on the house votes data,
+# returning the averages of our loss metrics.
+def run_house_shuffle_data(n):
+    data = pr.open_house_votes_data()
+    data = cv.feature_shuffling(data, pr.HOUSE_VOTES_DATA_ATTR_COLS)
+    run(n, data, cl.classify_house_data, pr.HOUSE_VOTES_DATA_FILE_NAME)
+
+
+# Runs a ten percent attribute shuffle split n-times on the iris data, returning the averages of our loss metrics.
+def run_iris_shuffle_data(n):
+    data = pr.open_iris_data()
+    data = cv.feature_shuffling(data, pr.IRIS_DATA_ATTR_COLS)
+    run(n, data, cl.classify_iris_data, pr.IRIS_DATA_FILE_NAME)
+
+
+# Runs a ten percent attribute shuffle split n-times on the soy bean data,
+# returning the averages of our loss metrics.
+def run_soy_bean_shuffle_data(n):
+    data = pr.open_soybean_small()
+    data = cv.feature_shuffling(data, pr.SOYBEAN_SMALL_ATTR_COLS)
+    run(n, data, cl.classify_soybean_data, pr.SOYBEAN_SMALL_DATA_NAME)
+
 
 # ----------------------
 # MISC. HELPER FUNCTIONS
@@ -179,53 +215,43 @@ def pick_highest(probability_map):
             max_class = potential_class
     return max_class
 
-# Shuffle 10 per
-def shuffle_10_percent_feature(data, attribute_index_array):
-    print(attribute_index_array)
-    shuffle = []
-    for i in range(len(data)):
 
-        for j in range(len(data[i])):
-            attribute = []
-            if attribute_index_array[j] is 'Y':
-                attribute.append(data[i][j])
-            print(attribute)
-#            shuffle.append(attribute)
-    # print(shuffle)
+# Runs all 80/20 split, 80/20 shuffle split, and 10-Fold Cross Validation test on loss functions (Mean Square Error Loss
+# and Cross Entropy Error Loss) n number of times to determine the average accuracy of each test set.
+def main():
+    n = 50
+    print("\n---------------------------------------")
+    print("TESTING SET: 80/20 SPLIT")
+    print("---------------------------------------")
+    run_breast_cancer_data(n)
+    run_glass_data(n)
+    run_house_data(n)
+    run_iris_data(n)
+    run_soybean_data(n)
+    print("\n---------------------------------------")
+    print("TESTING SET: 80/20 SHUFFLE SPLIT")
+    print("---------------------------------------")
+    run_breast_cancer_shuffle_data(n)
+    run_glass_shuffle_data(n)
+    run_house_shuffle_data(n)
+    run_iris_shuffle_data(n)
+    run_soy_bean_shuffle_data(n)
+    print("\n---------------------------------------")
+    print("TESTING SET: 10 FOLD CROSS VALIDATION")
+    print("---------------------------------------")
+    run_breast_cancer_data_cross_validation()
+    run_glass_data_cross_validation()
+    run_house_data_cross_validation()
+    run_iris_data_cross_validation()
+    run_soybean_data_cross_validation()
 
 
-def run_shuffle_breast_cancer_feature():
-    bc_data = pr.open_breast_cancer_data()
-    attributes_to_shuffle = []
-    num_of_attributes = 11
-    for i in range(num_of_attributes):
-        probability = random.randrange(num_of_attributes)
-        if probability is 0:
-            attributes_to_shuffle = attributes_to_shuffle + ['Y']
-        else:
-            attributes_to_shuffle = attributes_to_shuffle + ['N']
-    attributes_to_shuffle[0] = 'N'
-    attributes_to_shuffle[-1] = 'N'
-    shuffle_10_percent_feature(bc_data, attributes_to_shuffle)
+main()
 
 
-run_shuffle_breast_cancer_feature()
 
-# run_breast_cancer_data(50)
-# run_glass_data(50)
-# run_house_data(50)
-# run_iris_data(50)
-# run_soybean_data(50)
 
-# run_breast_cancer_data_cross_validation()
-# run_glass_data_cross_validation()
-# run_house_data_cross_validation()
-# run_iris_data_cross_validation()
-# run_soybean_data_cross_validation()
 
-# run_breast_cancer_data_cross_fold()
-# run_glass_data_cross_fold()
-# run_house_data_cross_fold()
-# run_iris_data_cross_fold()
-# run_soybean_data_cross_fold()
+
+
 

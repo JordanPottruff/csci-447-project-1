@@ -2,6 +2,7 @@
 import random
 import math
 
+
 # Returns an array of a dictionary of keys: "testing" and "training" and values: arrays of data.
 # Each key is mapped to a value of a 2D array of the data respective to the key.
 # Input: Data (as a 2D list)

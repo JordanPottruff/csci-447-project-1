@@ -9,10 +9,6 @@ def loss_function(training_set, loss_function_type):
     for eachExample in training_set:
         # ... get needed variables from the data for our loss function ...
         actual_class, classes, probabilities, num_of_classes = extract_data(eachExample)
-        #print("Actual Class: " + str(actual_class))
-        #print("Classes: " + str(classes))
-        #print("Probabilities: " + str(probabilities))
-        #print("Number of classes: " + str(num_of_classes))
         # ... keep track of total loss for each example ...
         example_loss = 0
         # ... Loop through classes
@@ -23,21 +19,16 @@ def loss_function(training_set, loss_function_type):
                 truth = 0
             else:
                 truth = 1
-
             if loss_function_type == 'MSE':
-                print("ProbabilityMSE:" + str(probabilities[i]))
-                print("ClassMSE:" + str(classes[i]))
                 example_loss += calculate_mean_square_error(truth, probabilities[i], num_of_classes)
             elif loss_function_type == 'Cross_Entropy':
-                print("ProbabilityCE:" + str(probabilities[i]))
-                print("ClassCE:" + str(classes[i]))
                 example_loss += calculate_cross_entropy_error(truth, probabilities[i], num_of_classes)
             else:
                 print("Error: There was no loss_function created for the requested type.")
 
         total_loss += example_loss
     loss_average_of_testset = total_loss / len(training_set)
-    print("Our averaged loss value on this training set using cross entropy is [0]", format(loss_average_of_testset))
+    # print("Our averaged loss value on this training set using cross entropy is [0]", format(loss_average_of_testset))
     return loss_average_of_testset
 
 
@@ -46,7 +37,7 @@ def calculate_mean_square_error(truth, predicted, num_of_classes):
     # Mean Square Error (MSE) loss function
     # https://jamesmccaffrey.wordpress.com/2013/11/05/why-you-should-use-cross-entropy-error-instead-of-classification-error-or-mean-squared-error-for-neural-network-classifier-training/
     # Mean square error function
-    return ((predicted - truth)**2/num_of_classes)  # Return average loss for example
+    return (predicted - truth)**2/num_of_classes # Return average loss for example
 
 
 def calculate_cross_entropy_error(truth, predicted, num_of_classes):
@@ -57,7 +48,7 @@ def calculate_cross_entropy_error(truth, predicted, num_of_classes):
     # H(p, q) =−∑∀x p(x)log(q(x))
     if predicted == 0:
         predicted += .001
-    return ((-1) * (truth * m.log(predicted))/num_of_classes)  # Return the average loss for the example
+    return (-1) * (truth * m.log(predicted))/num_of_classes  # Return the average loss for the example
 
 
 def extract_data(each_example):
